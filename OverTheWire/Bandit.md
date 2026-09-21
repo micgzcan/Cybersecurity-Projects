@@ -75,7 +75,7 @@ Here, we have two choices:
 
 1. We go to the ```inhere``` directory using ```cd```:
 
-```cd inhere```
+```$ cd inhere```
 
 In this level, the password is stored in a hidden file. To show its name, we use the ```-a``` (all) flag after ```ls```.
 
@@ -92,119 +92,119 @@ We visualize ```inhere```'s contents:
 ```$ ls -a inhere```
 
 Then we output the desired file's contents:
-```cat inhere/...Hiding-From-You```
+```$ cat inhere/...Hiding-From-You```
 
 ## Level 4 -> Level 5
 
 Next level's password is stored in the only human-readable file in inhere.
 
 ```bash
-cd inhere
-find . -type f -printf "\n\n" -exec cat {} \;
+$ cd inhere
+$ find . -type f -printf "\n\n" -exec cat {} \;
 ```
 
 ## Level 5 -> Level 6
 
 Password is stored in the ```inhere``` directory, is human-readable, is 1033 bytes, and isn't executable
 
-```find . -type f ! -executable -size 1033c -printf "\n\n" -exec cat {} \;```
+```$ find . -type f ! -executable -size 1033c -printf "\n\n" -exec cat {} \;```
 
 ## Level 6 -> Level 7
 
 File is stored somewhere owned by user bandit7, owned by group bandit6, 33 bytes in size
 
-```find / -type f -size 33c -group bandit6 -user bandit7 -printf "\n\n" -exec cat {} \;```
+```$ find / -type f -size 33c -group bandit6 -user bandit7 -printf "\n\n" -exec cat {} \;```
 
 
 ## Level 7 -> Level 8
 Password is found in data.txt next to the word "millionth"
 
-```grep data.txt -e "millionth"```
+```$ grep data.txt -e "millionth"```
 
 ## Level 8 -> Level 9
 The password is in data.txt and is the only unique line of text
 
-```sort data.txt | uniq -u```
+```$ sort data.txt | uniq -u```
 
 ## Level 9 -> Level 10
 Password is in data.txt, in a human-readable string, preceded by several "="
 
-```strings data.txt | grep -e '.=='```
+```$ strings data.txt | grep -e '.=='```
 
 ## Level 10 -> Level 11
 Next level's password is stored in data.txt, which contains base64 data.
 
-```base64 -d data.txt```
+```$ base64 -d data.txt```
 
 ## Level 11 -> Level 12
 The password is stored in data.txtm where lowercase and uppercase were rotated by 13 positions
 
-```cat data.txt | tr 'a-zA-Z' 'n-za-mN-ZA-M'```
+```$ cat data.txt | tr 'a-zA-Z' 'n-za-mN-ZA-M'```
 
 ## Level 12 -> Level 13
 data.txt is now a hexdump that has been compressed several times. Creating a directory is useful
 
-```xxd -r data.txt data.bin```
+```$ xxd -r data.txt data.bin```
 To turn the hexdump into binary
 
 Analyze the file 
-```file data.bin``` 
+```$ file data.bin``` 
 (picture)
 ```bash
-mv data.bin data.gz
-file data
+$ mv data.bin data.gz
+$ file data
 ```
 data: bzip2 compressed data, block size = 900k
 
 ```bash
-mv data data.bz2
-bunzip2 data.bz2
-file data
+$ mv data data.bz2
+$ bunzip2 data.bz2
+$ file data
 ```
 data: gzip compressed data, was "data4.bin", last modified: Wed Jun 24 14:58:46 2026, max compression, from Unix, original size modulo 2^32 20480
 
 ```bash
-mv data data.gz
-unzip data.gz
-file data
+$ mv data data.gz
+$ unzip data.gz
+$ file data
 ```
-data: POSIX tar archive (GNU)
+==data: POSIX tar archive (GNU)==
 
 ```bash
-man tar
-mv data data.tar
-tar -xvf data.tar
-file data5.bin
+$ man tar
+$ mv data data.tar
+$ tar -xvf data.tar
+$ file data5.bin
 ```
 data5.bin: POSIX tar archive (GNU)
 
 ```bash
-tar -xvf data5.bin
-file data6.bin
+$ tar -xvf data5.bin
+$ file data6.bin
 ```
 data6.bin: bzip2 compressed data, block size = 900k
 
 ```bash
-bunzip2 data6.bin
-file data6.bin.out
+$ bunzip2 data6.bin
+$ file data6.bin.out
 ```
 data6.bin.out: POSIX tar archive (GNU)
 
 ```bash
-tar -xvf data6.bin.out
-file data8.bin
+$ tar -xvf data6.bin.out
+$ file data8.bin
 ```
 data8.bin: gzip compressed data, was "data9.bin", last modified: Wed Jun 24 14:58:46 2026, max compression, from Unix, original size modulo 2^32 49
 
 ```bash
-gunzip data8.bin
-mv data8.bin data8.gz
-gunzip data8.gz
-file data8
+$ gunzip data8.bin
+$ mv data8.bin data8.gz
+$ gunzip data8.gz
+$ file data8
 ```
 data8: ASCII text
 
-```cat data8```
+```$ cat data8```
 The password
 
 ## Level 13 -> Level 14
