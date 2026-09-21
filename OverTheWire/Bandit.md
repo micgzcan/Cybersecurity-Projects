@@ -34,8 +34,10 @@ This displays the readme file. To see what's inside it, we can use  ```cat```, w
 This outputs the password.
 
 To access the next level, we first exit and then run the same command as we did at Level 0, but using bandit1 with the new password:
-```$ exit```
-```$ ssh bandit1@bandit.labs.overthewire.org -p 2220```
+```bash
+$ exit
+$ ssh bandit1@bandit.labs.overthewire.org -p 2220
+```
 
 If we wish to empty the terminal, we can use the command ```clear```.
 
