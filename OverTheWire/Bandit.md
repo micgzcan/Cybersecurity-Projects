@@ -168,7 +168,7 @@ $ mv data data.gz
 $ unzip data.gz
 $ file data
 ```
-==data: POSIX tar archive (GNU)==
+<mark>data: POSIX tar archive (GNU)</mark>
 
 ```bash
 $ man tar
