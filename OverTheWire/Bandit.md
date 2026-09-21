@@ -98,8 +98,10 @@ Then we output the desired file's contents:
 
 Next level's password is stored in the only human-readable file in inhere.
 
-```cd inhere```
-```find . -type f -printf "\n\n" -exec cat {} \;```
+```bash
+cd inhere
+find . -type f -printf "\n\n" -exec cat {} \;
+```
 
 ## Level 5 -> Level 6
 
@@ -138,6 +140,7 @@ Next level's password is stored in data.txt, which contains base64 data.
 The password is stored in data.txtm where lowercase and uppercase were rotated by 13 positions
 
 ```cat data.txt | tr 'a-zA-Z' 'n-za-mN-ZA-M'```
+
 ## Level 12 -> Level 13
 data.txt is now a hexdump that has been compressed several times. Creating a directory is useful
 
@@ -147,42 +150,58 @@ To turn the hexdump into binary
 Analyze the file 
 ```file data.bin``` 
 (picture)
-```mv data.bin data.gz```
-```file data```
+```bash
+mv data.bin data.gz
+file data
+```
 data: bzip2 compressed data, block size = 900k
 
-```mv data data.bz2```
-```bunzip2 data.bz2```
-```file data```
+```bash
+mv data data.bz2
+bunzip2 data.bz2
+file data
+```
 data: gzip compressed data, was "data4.bin", last modified: Wed Jun 24 14:58:46 2026, max compression, from Unix, original size modulo 2^32 20480
 
-```mv data data.gz```
-```unzip data.gz```
-```file data```
+```bash
+mv data data.gz
+unzip data.gz
+file data
+```
 data: POSIX tar archive (GNU)
 
-```man tar```
-```mv data data.tar```
-```tar -xvf data.tar```
-```file data5.bin```
+```bash
+man tar
+mv data data.tar
+tar -xvf data.tar
+file data5.bin
+```
 data5.bin: POSIX tar archive (GNU)
 
-```tar -xvf data5.bin```
-```file data6.bin```
+```bash
+tar -xvf data5.bin
+file data6.bin
+```
 data6.bin: bzip2 compressed data, block size = 900k
 
-```bunzip2 data6.bin```
-```file data6.bin.out```
+```bash
+bunzip2 data6.bin
+file data6.bin.out
+```
 data6.bin.out: POSIX tar archive (GNU)
 
-```tar -xvf data6.bin.out```
-```file data8.bin```
+```bash
+tar -xvf data6.bin.out
+file data8.bin
+```
 data8.bin: gzip compressed data, was "data9.bin", last modified: Wed Jun 24 14:58:46 2026, max compression, from Unix, original size modulo 2^32 49
 
-```gunzip data8.bin```
-```mv data8.bin data8.gz```
-```gunzip data8.gz```
-```file data8```
+```bash
+gunzip data8.bin
+mv data8.bin data8.gz
+gunzip data8.gz
+file data8
+```
 data8: ASCII text
 
 ```cat data8```
