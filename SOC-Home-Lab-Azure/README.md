@@ -1,5 +1,5 @@
 # SOC Home Lab 1
-#### Written by: cyberNightKnight
+#### Written by: micgzcan
 
 ## -- Overview --
 
