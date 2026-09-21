@@ -154,21 +154,21 @@ Analyze the file
 $ mv data.bin data.gz
 $ file data
 ```
-data: bzip2 compressed data, block size = 900k
+Output: <mark>data: bzip2 compressed data, block size = 900k</mark>
 
 ```bash
 $ mv data data.bz2
 $ bunzip2 data.bz2
 $ file data
 ```
-data: gzip compressed data, was "data4.bin", last modified: Wed Jun 24 14:58:46 2026, max compression, from Unix, original size modulo 2^32 20480
+Output: <mark>data: gzip compressed data, was "data4.bin", last modified: Wed Jun 24 14:58:46 2026, max compression, from Unix, original size modulo 2^32 20480</mark>
 
 ```bash
 $ mv data data.gz
 $ unzip data.gz
 $ file data
 ```
-<mark>data: POSIX tar archive (GNU)</mark>
+Output: <mark>data: POSIX tar archive (GNU)</mark>
 
 ```bash
 $ man tar
@@ -176,25 +176,25 @@ $ mv data data.tar
 $ tar -xvf data.tar
 $ file data5.bin
 ```
-data5.bin: POSIX tar archive (GNU)
+Output: <mark>data5.bin: POSIX tar archive (GNU)</mark>
 
 ```bash
 $ tar -xvf data5.bin
 $ file data6.bin
 ```
-data6.bin: bzip2 compressed data, block size = 900k
+Output: <mark>data6.bin: bzip2 compressed data, block size = 900k</mark>
 
 ```bash
 $ bunzip2 data6.bin
 $ file data6.bin.out
 ```
-data6.bin.out: POSIX tar archive (GNU)
+Output: <mark>data6.bin.out: POSIX tar archive (GNU)</mark>
 
 ```bash
 $ tar -xvf data6.bin.out
 $ file data8.bin
 ```
-data8.bin: gzip compressed data, was "data9.bin", last modified: Wed Jun 24 14:58:46 2026, max compression, from Unix, original size modulo 2^32 49
+Output: <mark>data8.bin: gzip compressed data, was "data9.bin", last modified: Wed Jun 24 14:58:46 2026, max compression, from Unix, original size modulo 2^32 49</mark>
 
 ```bash
 $ gunzip data8.bin
@@ -202,10 +202,10 @@ $ mv data8.bin data8.gz
 $ gunzip data8.gz
 $ file data8
 ```
-data8: ASCII text
+Output: <mark>data8: ASCII text</mark>
 
 ```$ cat data8```
-The password
+Output: <mark>The password</mark>
 
 ## Level 13 -> Level 14
 Next level's password is in /etc/bandit_pass/bandit14 and can only be read by user bandit14
