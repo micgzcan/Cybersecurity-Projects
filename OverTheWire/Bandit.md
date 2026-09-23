@@ -677,4 +677,6 @@ This level is still in development. If we access bandit33, we can visualize the 
 
 ![Level in development](Images/l34-1.png)
 
+<hr/>
+
 ### Thank you for reading! 
