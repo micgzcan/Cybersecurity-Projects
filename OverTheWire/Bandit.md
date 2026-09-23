@@ -412,4 +412,161 @@ After waiting a while, we can visualize the password inside the file using ```ca
 ## Level 24 -> Level 25
 A daemon (program that runs in the background) listens on port 30002 and will give the pass for next level if given last level's plus a secret 4-digit pincode. The only way to obtain it is by going through all 10000 combinations.
 
-To find the right pincode, we'll have to use a method known as brute-forcing, which means trying one by one until we find the right one.
+To find the right pincode, we'll have to use a method known as brute-forcing, which means trying one by one until we find the right one:
+```bash
+$ for i in {0000..9999}; do echo "{bandit25 password} $i"; done | netcat localhost 30002 | grep -v "Wrong"
+```
+What this does is pass the numbers from 0000 to 9999 to the connection to port 30002 on localhost (which is where the daemon is listening). Then, it'll filter the output so we only see the line with the successful message.
+
+## Level 25 -> Level 26
+The shell for user bandit26 isn't /bin/bash. We're supposed to find our what is it and how to break out of it.
+
+First, we can see which shell it's using by checking the following directory:
+```bash
+$ cat /etc/passwd | grep 26
+```
+(pic)
+This indicates it's running showtext. Inside it, we can see it displays a file from bandit26 home directory called 'text.txt'. At the top we can also see it doesn't have the #!/bin/bash shebang.
+
+```more``` is used to display text in an interactive way when it's too large to fit in the terminal. It allows the use of Vim (text editor that also allows command execution). So in order to enter interactive mode, we need to make the terminal smaller than the display, execute the ssh script with the passkey (needs to be on your computer) and click 'v':
+```bash
+$ ssh -i ./bandit26.sshkey bandit26@bandit.labs.overthewire.org -p 2220
+```
+(pic)
+
+While in interactive mode, we write:
+```bash
+ :set shell=/bash/bin
+ :shell
+```
+This sets the shell to /bash/bin and enters the shell. Now we're inside bandit26.
+
+## Level 26 -> Level 27
+If we view the contents of bandit26 using ```ls```, we find out there's a program that allows execution from another user:
+(pic)
+
+From here, we can view the directory containing each level's password. If we look at the one belonging to bandit27, we realize we have read permissions for that file.
+(pic)
+
+If we look inside that file using ```cat```, we can find the password.
+
+## Level 27 -> Level 28
+In this level we have to clone a repository on port 2220:
+```bash
+$ git clone ssh://bandit27-git@bandit.labs.overthewire.org:2220/home/bandit27-git/repo
+```
+This will ask for the previous level's password.
+
+Once it finished cloning, we can visualize the repository's contents:
+```bash
+$ ls repo
+```
+This will show it contains a README file.
+
+The password can be found in this file:
+```bash
+$ cat repo/README
+```
+
+## Level 28 -> Level 29
+Again, we have to clone a git repository to obtain the password on port 2220. Since repo is already a repository and we're not using it anymore, we can delete it:
+```bash
+$ rm -rf repo
+```
+Now we can clone it, using last level's password:
+```bash
+$ git clone ssh://bandit28-git@bandit.labs.overthewire.org:2220/home/bandit28-git/repo
+```
+If we visualize the README file inside (same as the previous level), we can see this:
+(pic)
+
+Looking at the password section, it's possible there was a previous version that contained the actual password.
+
+So, we visualize the commit history, which shows the different versions of the repository. For the command to work, it has to be done from the repo directory:
+```bash
+$ git log
+```
+(pic)
+Here we can see there was an info leak fix.
+
+To see this version:
+```bash
+$ git show {commit-id}
+```
+This outputs the previous version with the visible password.
+
+## Level 29 -> Level 30
+One more, we clone a git repository:
+```bash
+$ git clone ssh://bandit29-git@bandit.labs.overthewire.org:2220/home/bandit29-git/repo
+```
+If we look at the contents of README.md, we can see the password was never added to production.
+(pic)
+This implies it could have been added to the development branch.
+
+To see all the branches:
+```bash
+$ git branch -a
+```
+(pic)
+Here we can observe there is a dev branch.
+
+If we look at the history of that branch, we can see one of the commits contained data necessary for development:
+```bash
+$ git log remotes/origin/dev
+```
+(pic)
+The password will be displayed if we see that version:
+```bash
+$ git show {commit id}
+```
+
+## Level 30 -> Level 31
+We clone the repository:
+```bash
+$ git clone ssh://bandit30-git@bandit.labs.overthewire.org:2220/home/bandit30-git/repo
+```
+If we look at README.md, we can see it's empty.
+(pic)
+
+The commits also only show the one where the file was written.
+
+However, when we check the tags (point to a specific commit), we can see there is one called 'secret'. The password will be shown if we view its contents:
+```bash
+$ git tag
+$ git show secret
+```
+
+## Level 31 -> Level 32
+We clone the repository:
+```bash
+$ git clone ssh://bandit31-git@bandit.labs.overthewire.org:2220/home/bandit31-git/repo
+```
+If we visualize the README.md file, we see we have to push a file named key.txt with the phrase 'May I come in?' to the master branch.
+
+To do this, we first create the file. It's also possible to use ```echo "May I come in"> cat key.txt``` command to create the file:
+```bash
+$ nano key.txt
+```
+And insert the phrase without quotes.
+
+Then we add the file to the repo, commit it, and push it. Note we use ```-f``` in ```git add``` because otherwise the .gitignore file (which is programmed to ignore all .txt files) will ignore it:
+```bash
+$ git add -f key.txt
+$ git commit -m "Created key.txt"
+$ git push origin main
+```
+After this, we'll get asked to input this level's password and will receive the next's.
+
+## Level 32 -> Level 33
+When we enter this level, we're stuck in a shell that turns every command to uppercase.
+
+To bypass this, we can use:
+```bash
+$0
+```
+This parameter represents our current shell/interpreter, so it takes us to a regular command terminal.
+
+From there, we can go to /etc/bandit_pass/bandit33 to find the password.
+
+### Thank you for reading! 
