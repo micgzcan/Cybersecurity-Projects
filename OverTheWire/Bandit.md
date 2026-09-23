@@ -20,6 +20,8 @@ After entering the password, we're ready to go to the next Level.
 
 (picture)
 
+<hr/>
+
 ## Level 0 -> Level 1
 
 Next level's password is stored in a file called readme inside the home directory.
@@ -41,6 +43,8 @@ $ ssh bandit1@bandit.labs.overthewire.org -p 2220
 
 If we wish to empty the terminal, we can use the command ```clear```.
 
+<hr/>
+
 ## Level 1 -> Level 2
 
 To find the file located in "-":
@@ -55,6 +59,8 @@ In Linux, dashes (-) are used to specify options for commands. If we were to use
 
 ```./``` is the file's path, where ```.``` is the current directory, so here we're declaring that we're dealing with a file.
 
+<hr/>
+
 ## Level 2 -> Level 3
 
 Now the password is stored in a file called --spaces in this filename--.
@@ -65,6 +71,8 @@ This time we also have to deal with spaces; typically the command line will take
 ```$ cat ./"--spaces in this filename--"```
 
 This gives us this level's password.
+
+<hr/>
 
 ## Level 3 -> Level 4
 
@@ -94,6 +102,8 @@ We visualize ```inhere```'s contents:
 Then we output the desired file's contents:
 ```$ cat inhere/...Hiding-From-You```
 
+<hr/>
+
 ## Level 4 -> Level 5
 
 Next level's password is stored in the only human-readable file in inhere.
@@ -103,11 +113,15 @@ $ cd inhere
 $ find . -type f -printf "\n\n" -exec cat {} \;
 ```
 
+<hr/>
+
 ## Level 5 -> Level 6
 
 Password is stored in the ```inhere``` directory, is human-readable, is 1033 bytes, and isn't executable
 
 ```$ find . -type f ! -executable -size 1033c -printf "\n\n" -exec cat {} \;```
+
+<hr/>
 
 ## Level 6 -> Level 7
 
@@ -115,31 +129,42 @@ File is stored somewhere owned by user bandit7, owned by group bandit6, 33 bytes
 
 ```$ find / -type f -size 33c -group bandit6 -user bandit7 -printf "\n\n" -exec cat {} \;```
 
+<hr/>
 
 ## Level 7 -> Level 8
 Password is found in data.txt next to the word "millionth"
 
 ```$ grep data.txt -e "millionth"```
 
+<hr/>
+
 ## Level 8 -> Level 9
 The password is in data.txt and is the only unique line of text
 
 ```$ sort data.txt | uniq -u```
+
+<hr/>
 
 ## Level 9 -> Level 10
 Password is in data.txt, in a human-readable string, preceded by several "="
 
 ```$ strings data.txt | grep -e '.=='```
 
+<hr/>
+
 ## Level 10 -> Level 11
 Next level's password is stored in data.txt, which contains base64 data.
 
 ```$ base64 -d data.txt```
 
+<hr/>
+
 ## Level 11 -> Level 12
 The password is stored in data.txtm where lowercase and uppercase were rotated by 13 positions
 
 ```$ cat data.txt | tr 'a-zA-Z' 'n-za-mN-ZA-M'```
+
+<hr/>
 
 ## Level 12 -> Level 13
 data.txt is now a hexdump that has been compressed several times. Creating a directory is useful
@@ -209,6 +234,8 @@ $ cat data8
 ```
 Output: <mark>The password</mark>
 
+<hr/>
+
 ## Level 13 -> Level 14
 Next level's password is in /etc/bandit_pass/bandit14 and can only be read by user bandit14
 
@@ -243,6 +270,8 @@ $ chmod 600 sshkey.private
 ```
 After trying again we are now inside bandit14.
 
+<hr/>
+
 ## Level 14 -> Level 15
 The password can be obtained by using this level's password to port 30000 on localhost.
 
@@ -264,6 +293,8 @@ This will prompt us for the password, and after pasting it, returns bandit15's.
 
 (picture)
 
+<hr/>
+
 ## Level 15 -> Level 16
 To get the next password, current level's password should be submitted to port 30001 on localhost using SSL/TLS encryption.
 
@@ -274,6 +305,8 @@ $ openssl s_client -connect localhost:30001
 ```
 
 Then we input bandit15's password and get next level's.
+
+<hr/>
 
 ## Level 16 -> Level 17
 To get next level's password, we have to submit current level's password to a localhost port in the range 31000-32000. We have to find out the one that speaks SSL/TLS.
@@ -293,6 +326,8 @@ Without the ```-ign_eof``` flag, which is triggered by the letter 'k'/'K', every
 
 As a result we get a private key. Save that key in a file on your device and ensure it has as little permissions as possible using ```chmod```.
 
+<hr/>
+
 ## Level 17 -> Level 18
 The password is the only different line between passwords.old and passwords.new
 ```bash
@@ -302,6 +337,8 @@ The right password is the one that's only in _passwords.new_ (the arrow pointing
 
 This won't allow the connection due to level bandit19.
 
+<hr/>
+
 ## Level 18 -> Level 19
 Next level's password is in a readme inside the home directory, but .bashrc was modified to log us out when using SSH.
 
@@ -310,6 +347,8 @@ To bypass this modification, we just print the password from the file:
 $ ssh bandit18@bandit.labs.overthewire.org -p 2220 'cat readme'
 ```
 After adding this level's password, we get next level's.
+
+<hr/>
 
 ## Level 19 -> Level 20
 To access next level, we need to use the setuid binary in the home directory, and find the password in /etc/bandit_pass.
@@ -331,6 +370,8 @@ To visualize next level's:
 $ ./bandit20-do cat /etc/bandit_pass/bandit20
 ```
 
+<hr/>
+
 ## Level 20 -> Level 21
 Here we have another binary that makes a connection to localhost with the port as an argument, then reads some text from the connection and compares it to bandit20's password. If it's correct, it transmits next level's password.
 
@@ -346,6 +387,7 @@ $ ./suconnect 1234
 ```
 Afterwards, we paste bandit20's password on the session where ```nc``` is running and check the output.
 
+<hr/>
 
 ## Level 21 -> Level 22
 A program is running automatically at intervals from cron, whose configuration is in /etc/cron.d/
@@ -359,6 +401,8 @@ When displaying that shell script, we can see it actually passes the password on
 (pic)
 
 If we visualize the contents of that temporary file, we can see next level's password
+
+<hr/>
 
 ## Level 22 -> Level 23
 Again, there is a program executing at regular intervals that's found in /etc/cron.d/
@@ -375,6 +419,8 @@ We can use it to generate the hash, replacing ```$whoami``` with bandit23 and th
 $ echo I am user bandit23 | md5sum | cut -d ' ' -f 1
 $ cat /tmp/{hash}
 ```
+<hr/>
+
 ## Level 23 -> Level 24
 A program is running regularly at /etc/cron.d/: cronjob_bandit24. 
 
@@ -409,6 +455,8 @@ $ cp getpw.sh /var/spool/bandit24/foo
 
 After waiting a while, we can visualize the password inside the file using ```cat```.
 
+<hr/>
+
 ## Level 24 -> Level 25
 A daemon (program that runs in the background) listens on port 30002 and will give the pass for next level if given last level's plus a secret 4-digit pincode. The only way to obtain it is by going through all 10000 combinations.
 
@@ -417,6 +465,8 @@ To find the right pincode, we'll have to use a method known as brute-forcing, wh
 $ for i in {0000..9999}; do echo "{bandit25 password} $i"; done | netcat localhost 30002 | grep -v "Wrong"
 ```
 What this does is pass the numbers from 0000 to 9999 to the connection to port 30002 on localhost (which is where the daemon is listening). Then, it'll filter the output so we only see the line with the successful message.
+
+<hr/>
 
 ## Level 25 -> Level 26
 The shell for user bandit26 isn't /bin/bash. We're supposed to find our what is it and how to break out of it.
@@ -441,6 +491,8 @@ While in interactive mode, we write:
 ```
 This sets the shell to /bash/bin and enters the shell. Now we're inside bandit26.
 
+<hr/>
+
 ## Level 26 -> Level 27
 If we view the contents of bandit26 using ```ls```, we find out there's a program that allows execution from another user:
 (pic)
@@ -449,6 +501,8 @@ From here, we can view the directory containing each level's password. If we loo
 (pic)
 
 If we look inside that file using ```cat```, we can find the password.
+
+<hr/>
 
 ## Level 27 -> Level 28
 In this level we have to clone a repository on port 2220:
@@ -467,6 +521,7 @@ The password can be found in this file:
 ```bash
 $ cat repo/README
 ```
+<hr/>
 
 ## Level 28 -> Level 29
 Again, we have to clone a git repository to obtain the password on port 2220. Since repo is already a repository and we're not using it anymore, we can delete it:
@@ -495,6 +550,8 @@ $ git show {commit-id}
 ```
 This outputs the previous version with the visible password.
 
+<hr/>
+
 ## Level 29 -> Level 30
 One more, we clone a git repository:
 ```bash
@@ -520,6 +577,7 @@ The password will be displayed if we see that version:
 ```bash
 $ git show {commit id}
 ```
+<hr/>
 
 ## Level 30 -> Level 31
 We clone the repository:
@@ -536,6 +594,7 @@ However, when we check the tags (point to a specific commit), we can see there i
 $ git tag
 $ git show secret
 ```
+<hr/>
 
 ## Level 31 -> Level 32
 We clone the repository:
@@ -557,6 +616,8 @@ $ git commit -m "Created key.txt"
 $ git push origin main
 ```
 After this, we'll get asked to input this level's password and will receive the next's.
+
+<hr/>
 
 ## Level 32 -> Level 33
 When we enter this level, we're stuck in a shell that turns every command to uppercase.
