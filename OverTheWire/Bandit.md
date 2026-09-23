@@ -12,13 +12,13 @@ I connected to the lab using this command:
 
 SSH is used for remote connections. Here I'm connecting to bandit.labs.overthewire.org using port 2220 with username bandit0.
 
-!(First Login)[Images/firstLogin]
+![First Login](Images/firstLogin.png)
 
 According to the instructions, the password is bandit0.
 
 After entering the password, we're ready to go to the next Level.
 
-(picture)
+![Inside Level 0](Images/InsideLevel0.png)
 
 <hr/>
 
@@ -28,7 +28,7 @@ Next level's password is stored in a file called _readme_ inside the home direct
 
 In order to visualize current directory's contents, we can use  ```ls ```:
 
-(picture)
+![Visualizing contents](Images/l1Ls.png)
 
 This displays the _readme_ file. To see what's inside, we can use  ```cat```, which is used, among other things, to display file content:
 ```$ cat readme```
@@ -183,11 +183,11 @@ _data.txt_ is now a hexdump that has been compressed several times. Creating a d
 
 This turns the hexdump into binary.
 
-We analyze the file:
+First we analyze the file:
 ```$ file data.bin``` 
-(picture)
+![Analyzing data.bin](Images/databin.png)
 
-Then rename the file and analyze it again:
+Then we rename the file and analyze it again so we can later decompress it:
 ```bash
 $ mv data.bin data.gz
 $ file data
@@ -262,7 +262,7 @@ This file contains a key that will be used to connect to bandit14 without needin
 
 However, when trying to connect through bandit13, it displays this message:
 
-(image)
+![Failed login](Images/failedLogin13.png)
 
 This means we must connect from outside the server. Since the required file is in bandit13, we have to move it to our machine:
 
@@ -278,7 +278,7 @@ $ ssh -i ./sshkey.private bandit14@bandit.labs.overthewire.org -p 2220
 ```
 This message appeared when trying to access:
 
-(picture)
+![Unprotected key file](Images/unprotkeyfile.png)
 
 In order to remove this error, I changed the permissions to read only for the owner (all other permissions were revoked):
 
@@ -308,7 +308,7 @@ $ telnet localhost 30000
 
 This will prompt us for current level's password, and after pasting it, will return bandit15's password.
 
-(picture)
+![Connecting to localhost](Images/localhost14.png)
 
 <hr/>
 
@@ -371,7 +371,9 @@ After adding this level's password, we get next level's.
 To access next level, we need to use the setuid binary in the home directory, and find the password in _/etc/bandit_pass_.
 
 When we execute _bandit20-do_ (using ```./bandit20-do```), we get the following message:
-(image)
+
+![Executing program](Images/exec20.png)
+
 If we execute that command, we get the output "bandit20".
 
 This means with this executable we can execute commands as if we were bandit20.
@@ -411,11 +413,11 @@ A program is running automatically at intervals from cron, whose configuration i
 
 First, I saw the contents of _/etc/cron.d_ using ```ls```. I first looked into a file called _cronjob_bandit22_ using ```cat``` and found out it executes a shell script:
 
-(pic)
+![Viewing executions](Images/l21-1.png)
 
 When displaying that shell script, we can see it actually passes the password onto another file:
 
-(pic)
+![Viewing shell script](Images/l21-2.png)
 
 If we visualize the contents of that temporary file, we can see next level's password.
 
@@ -426,7 +428,7 @@ Again, there is a program executing at regular intervals that's found in _/etc/c
 
 If we look inside _cronjob_bandit23_ until reaching the shell script (the same way as the previous level), we encounter this:
 
-(pic)
+![Viewing shell script](Images/l22-1.png)
 
 This script generates a hash based on the current user, takes the first column's output, and uses this hash for the temporary file where the password is being pushed.
 
@@ -443,7 +445,7 @@ A program is running regularly at _/etc/cron.d/_: _cronjob_bandit24_.
 
 Following the same steps as the previous levels, we reach the shell script:
 
-(pic)
+![Viewing shell script](Images/l23-1.png)
 
 This script executes and deletes all files in _/var/spool/bandit24/foo_.
 
@@ -492,14 +494,17 @@ First, we can see which shell it's using by checking the following directory:
 ```bash
 $ cat /etc/passwd | grep 26
 ```
-(pic)
-This indicates it's running showtext. Inside it, we can see it displays a file from bandit26 home directory called _text.txt_. At the top we can also see it doesn't have the ```#!/bin/bash``` header.
+![Viewing shell](Images/l25-1.png)
+
+This indicates it's running showtext. Inside it, we can see it displays a file from bandit26 home directory called _text.txt_. At the top we can also see it doesn't have the ```#!/bin/bash``` header:
+
+![File with unusual header](Images/l25-2.png)
 
 ```more``` is used to display text in an interactive way when it's too large to fit in the terminal. It allows the use of Vim (text editor that also allows command execution). So in order to enter interactive mode, we need to make the terminal smaller than the display, execute the ssh script with the passkey (needs to be on your computer) and enter 'v':
 ```bash
 $ ssh -i ./bandit26.sshkey bandit26@bandit.labs.overthewire.org -p 2220
 ```
-(pic)
+![Minimized screen](Images/l25-3.png)
 
 While in interactive mode, we write:
 ```bash
@@ -512,10 +517,12 @@ This sets the shell to _/bash/bin_ and enters the shell. Now we're inside bandit
 
 ## Level 26 -> Level 27
 If we view the contents of bandit26 using ```ls```, we find out there's a program that allows execution from another user:
-(pic)
+
+![Viewing contents](Images/l26-1.png)
 
 From here, we can view the directory containing each level's password. If we look at the one belonging to bandit27, we realize we have read permissions for that file.
-(pic)
+
+![Looking at permissions](Images/l26-2.png)
 
 If we look inside that file using ```cat```, we can find the password.
 
@@ -550,7 +557,8 @@ Now we can clone it, using last level's password:
 $ git clone ssh://bandit28-git@bandit.labs.overthewire.org:2220/home/bandit28-git/repo
 ```
 If we visualize the _README_ file inside (same as the previous level), we can see this:
-(pic)
+
+![Hidden password](Images/l28-1.png)
 
 Looking at the password section, it's possible there was a previous version that contained the actual password.
 
@@ -558,7 +566,8 @@ So, we visualize the commit history, which shows the different versions of the r
 ```bash
 $ git log
 ```
-(pic)
+![Commit log](Images/l28-2.png)
+
 Here we can see there was an info leak fix.
 
 To see this version:
@@ -575,21 +584,25 @@ One more, we clone a git repository:
 $ git clone ssh://bandit29-git@bandit.labs.overthewire.org:2220/home/bandit29-git/repo
 ```
 If we look at the contents of _README.md_, we can see the password was never added to production.
-(pic)
+
+![No password](Images/l29-1.png)
+
 This implies it could have been added to the development branch.
 
 To see all the branches:
 ```bash
 $ git branch -a
 ```
-(pic)
+![Branches](Images/l29-2.png)
+
 Here we can observe there is a _dev_ branch.
 
 If we look at the history of that branch, we can see one of the commits contained data necessary for development:
 ```bash
 $ git log remotes/origin/dev
 ```
-(pic)
+![Log](Images/l29-3.png)
+
 The password will be displayed if we see that version:
 ```bash
 $ git show {commit id}
@@ -602,7 +615,8 @@ We clone the repository:
 $ git clone ssh://bandit30-git@bandit.labs.overthewire.org:2220/home/bandit30-git/repo
 ```
 If we look at _README.md_, we can see it's empty.
-(pic)
+
+![Empty file](Images/l30-1.png)
 
 The commits also only show the one where the file was written.
 
@@ -619,6 +633,8 @@ We clone the repository:
 $ git clone ssh://bandit31-git@bandit.labs.overthewire.org:2220/home/bandit31-git/repo
 ```
 If we visualize the _README.md_ file, we see we have to push a file named _key.txt_ with the phrase 'May I come in?' to the master branch.
+
+![Push instructions](Images/l31-1.png)
 
 To do this, we first create the file:
 ```bash
@@ -653,6 +669,7 @@ From there, we can go to _/etc/bandit_pass/bandit33_ to find the password.
 
 ## Level 33 -> Level 34
 This level is still in development. If we access bandit33, we can visualize the following message:
-(pic)
+
+![Level in development](Images/l34-1.png)
 
 ### Thank you for reading! 
