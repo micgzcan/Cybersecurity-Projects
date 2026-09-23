@@ -569,4 +569,10 @@ This parameter represents our current shell/interpreter, so it takes us to a reg
 
 From there, we can go to /etc/bandit_pass/bandit33 to find the password.
 
+<hr/>
+
+## Level 33 -> Level 34
+This level is still in development. If we access bandit33, we can visualize the following message:
+(pic)
+
 ### Thank you for reading! 
