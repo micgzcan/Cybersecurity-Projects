@@ -1,8 +1,8 @@
 # OverTheWire: Bandit
 
-Bandit is an OverTheWire lab that focuses on the shell.
+Bandit is an OverTheWire lab that focuses on the shell (SSH).
 
-I used a Kali Linux VM to solve all the challenges.
+I used a Kali Linux VM to solve all the levels.
 
 ## Level 0
 
@@ -10,9 +10,9 @@ I connected to the lab using this command:
 
 ```$ ssh bandit0@bandit.labs.overthewire.org -p 2220``` 
 
-ssh is used for remote connections. Here I'm connecting to bandit.labs.overthewire.org using port 2220 and with username bandit0.
+SSH is used for remote connections. Here I'm connecting to bandit.labs.overthewire.org using port 2220 with username bandit0.
 
-(picture)
+!(First Login)[Images/firstLogin]
 
 According to the instructions, the password is bandit0.
 
@@ -24,13 +24,13 @@ After entering the password, we're ready to go to the next Level.
 
 ## Level 0 -> Level 1
 
-Next level's password is stored in a file called readme inside the home directory.
+Next level's password is stored in a file called _readme_ inside the home directory.
 
 In order to visualize current directory's contents, we can use  ```ls ```:
 
 (picture)
 
-This displays the readme file. To see what's inside it, we can use  ```cat```, which is used, among other things, to display file contents:
+This displays the _readme_ file. To see what's inside, we can use  ```cat```, which is used, among other things, to display file content:
 ```$ cat readme```
 
 This outputs the password.
@@ -47,27 +47,27 @@ If we wish to empty the terminal, we can use the command ```clear```.
 
 ## Level 1 -> Level 2
 
-To find the file located in "-":
+To find the file located in -:
 
-We make sure it's in the current working directory.
+- We make sure it's in the current working directory.
 ```$ ls```
 
-We visualize its contents, which in this case is the password.
+- We visualize its contents, which in this case is the password.
 ```$ cat ./-```
 
 In Linux, dashes (-) are used to specify options for commands. If we were to use the dash alone with ```cat```, the command would remain executing.
 
-```./``` is the file's path, where ```.``` is the current directory, so here we're declaring that we're dealing with a file.
+```./``` is the file's path, where ```.``` is the current directory, so here we're stating that we're dealing with a file.
 
 <hr/>
 
 ## Level 2 -> Level 3
 
-Now the password is stored in a file called --spaces in this filename--.
+Now the password is stored in a file called _--spaces in this filename--_.
 
-Similar to the single dash, double hyphens are also used to specify options. Particularly, double hyphens are often used as the longer written form of the single dash one.
+Similar to the single dash, double hyphens are used to specify options. Particularly, double hyphens are often used as the longer written form of the single dash.
 
-This time we also have to deal with spaces; typically the command line will take spaces as different arguments. In order to counter this, we surround the filename in quotes.
+This time we also have to deal with spaces; typically the command line will take spaces as different arguments. In order to counter this, we surround the filename with quotes.
 ```$ cat ./"--spaces in this filename--"```
 
 This gives us this level's password.
@@ -81,7 +81,7 @@ First we visualize the current directory:
 
 Here, we have two choices: 
 
-1. We go to the ```inhere``` directory using ```cd```:
+1. We go to the _inhere_ directory using ```cd```:
 
 ```$ cd inhere```
 
@@ -89,14 +89,14 @@ In this level, the password is stored in a hidden file. To show its name, we use
 
 ```$ ls -a```
 
-There, we find a file named ```...Hiding-From-You```.
+There, we find a file named _...Hiding-From-You_.
 
 Finally, we display the contents using ```cat```:
 ```$ cat ...Hiding-From-You```
 
 2. We can print the file's contents without changing directories using paths:
 
-We visualize ```inhere```'s contents:
+We visualize _inhere_'s contents:
 ```$ ls -a inhere```
 
 Then we output the desired file's contents:
@@ -112,14 +112,16 @@ Next level's password is stored in the only human-readable file in inhere.
 $ cd inhere
 $ find . -type f -printf "\n\n" -exec cat {} \;
 ```
-
+Here we move to the _inhere_ directory and look for regular files. These files' contents are then displayed with two newlines between them for easier differentiation.
 <hr/>
 
 ## Level 5 -> Level 6
 
-Password is stored in the ```inhere``` directory, is human-readable, is 1033 bytes, and isn't executable
+Password is stored in the _inhere_ directory, is human-readable, is 1033 bytes, and isn't executable:
 
 ```$ find . -type f ! -executable -size 1033c -printf "\n\n" -exec cat {} \;```
+
+From the _inhere_ directory, this searches for regular files that aren't executable, have a size of 1033 bytes, and prints them with two newlines between them.
 
 <hr/>
 
@@ -128,58 +130,71 @@ Password is stored in the ```inhere``` directory, is human-readable, is 1033 byt
 File is stored somewhere owned by user bandit7, owned by group bandit6, 33 bytes in size
 
 ```$ find / -type f -size 33c -group bandit6 -user bandit7 -printf "\n\n" -exec cat {} \;```
+This looks in root (to search the entire system) for a regular file, 33 bytes in size, belonging to user bandit7 and group bandit6.
 
 <hr/>
 
 ## Level 7 -> Level 8
-Password is found in data.txt next to the word "millionth"
+Password is found in _data.txt_ next to the word "millionth"
 
 ```$ grep data.txt -e "millionth"```
+This looks for the line in the file that contains the string "millionth".
 
 <hr/>
 
 ## Level 8 -> Level 9
-The password is in data.txt and is the only unique line of text
+The password is in _data.txt_ and is the only unique line of text
 
 ```$ sort data.txt | uniq -u```
+This sorts all the lines of _data.txt_ so the repeating ones are together. Then, the sorted lines are passed onto the next command to look for the only line that doesn't repeat. If we were to use the second command on its own, it would output the first time every line appears.
 
 <hr/>
 
 ## Level 9 -> Level 10
-Password is in data.txt, in a human-readable string, preceded by several "="
+Password is in _data.txt_, in a human-readable string, preceded by several "="
 
 ```$ strings data.txt | grep -e '.=='```
+
+The first command looks for readable characters and passes them to the second command, which outputs the lines containing '.=='. 
 
 <hr/>
 
 ## Level 10 -> Level 11
-Next level's password is stored in data.txt, which contains base64 data.
+Next level's password is stored in _data.txt_, which contains base64 data.
 
 ```$ base64 -d data.txt```
+This decrypts the password stored in the file.
 
 <hr/>
 
 ## Level 11 -> Level 12
-The password is stored in data.txtm where lowercase and uppercase were rotated by 13 positions
+The password is stored in _data.txt_ where lowercase and uppercase were rotated by 13 positions
 
 ```$ cat data.txt | tr 'a-zA-Z' 'n-za-mN-ZA-M'```
+
+The first command passes the file's contents to the second one, which replaces the characters with their rotated equivalent.
 
 <hr/>
 
 ## Level 12 -> Level 13
-data.txt is now a hexdump that has been compressed several times. Creating a directory is useful
+_data.txt_ is now a hexdump that has been compressed several times. Creating a directory is useful.
 
 ```$ xxd -r data.txt data.bin```
-To turn the hexdump into binary
 
-Analyze the file 
+This turns the hexdump into binary.
+
+We analyze the file:
 ```$ file data.bin``` 
 (picture)
+
+Then rename the file and analyze it again:
 ```bash
 $ mv data.bin data.gz
 $ file data
 ```
 Output: <mark>data: bzip2 compressed data, block size = 900k</mark>
+
+Since it is compressed with _bzip2_, we can decompress it with the corresponding command:
 
 ```bash
 $ mv data data.bz2
@@ -187,6 +202,8 @@ $ bunzip2 data.bz2
 $ file data
 ```
 Output: <mark>data: gzip compressed data, was "data4.bin", last modified: Wed Jun 24 14:58:46 2026, max compression, from Unix, original size modulo 2^32 20480</mark>
+
+This process repeats until reaching the text file.
 
 ```bash
 $ mv data data.gz
@@ -237,7 +254,7 @@ Output: <mark>The password</mark>
 <hr/>
 
 ## Level 13 -> Level 14
-Next level's password is in /etc/bandit_pass/bandit14 and can only be read by user bandit14
+Next level's password is in _/etc/bandit_pass/bandit14_ and can only be read by user bandit14
 
 There are only two files in the directory: HINT and passkey.private, which is the one we're interested in.
 
@@ -275,7 +292,7 @@ After trying again we are now inside bandit14.
 ## Level 14 -> Level 15
 The password can be obtained by using this level's password to port 30000 on localhost.
 
-As stated in the previous level's description, the password for bandit14 is at /etc/bandit_pass/bandit14
+As stated in the previous level's description, the password for bandit14 is in _/etc/bandit_pass/bandit14_
 
 ```bash
 $ cat /etc/bandit_pass/bandit14
@@ -289,7 +306,7 @@ $ telnet localhost 30000
 ```
 **All of this while connected to bandit14 server**
 
-This will prompt us for the password, and after pasting it, returns bandit15's.
+This will prompt us for current level's password, and after pasting it, will return bandit15's password.
 
 (picture)
 
@@ -329,7 +346,7 @@ As a result we get a private key. Save that key in a file on your device and ens
 <hr/>
 
 ## Level 17 -> Level 18
-The password is the only different line between passwords.old and passwords.new
+The password is the only different line between _passwords.old_ and _passwords.new_
 ```bash
 $ diff passwords.old passwords.new
 ```
@@ -340,7 +357,7 @@ This won't allow the connection due to level bandit19.
 <hr/>
 
 ## Level 18 -> Level 19
-Next level's password is in a readme inside the home directory, but .bashrc was modified to log us out when using SSH.
+Next level's password is in a readme inside the home directory, but _.bashrc_ was modified to log us out when using SSH.
 
 To bypass this modification, we just print the password from the file:
 ```bash
@@ -351,19 +368,19 @@ After adding this level's password, we get next level's.
 <hr/>
 
 ## Level 19 -> Level 20
-To access next level, we need to use the setuid binary in the home directory, and find the password in /etc/bandit_pass.
+To access next level, we need to use the setuid binary in the home directory, and find the password in _/etc/bandit_pass_.
 
-When we execute bandit20-do (run ./bandit20-do), we get the following message:
+When we execute _bandit20-do_ (using ```./bandit20-do```), we get the following message:
 (image)
-If we execute that command, we get bandit20.
+If we execute that command, we get the output "bandit20".
 
 This means with this executable we can execute commands as if we were bandit20.
 
-First we find out what's in /etc/bandit_pas:
+First we find out what's in _/etc/bandit_pass_:
 ```bash
 $ ./bandit20-do ls /etc/bandit_pass
 ```
-We get the files with all levels' password.
+We get the files with all levels' passwords.
 
 To visualize next level's:
 ```bash
@@ -375,11 +392,11 @@ $ ./bandit20-do cat /etc/bandit_pass/bandit20
 ## Level 20 -> Level 21
 Here we have another binary that makes a connection to localhost with the port as an argument, then reads some text from the connection and compares it to bandit20's password. If it's correct, it transmits next level's password.
 
-First we open another session with a connection to bandit20 and establish a connection using netcat:
+First we open another session with a connection to bandit20 and establish a connection using ```netcat```:
 ```bash
 $ nc -lvp 1234
 ```
-Here, -l listens for incoming connections, -p specifies the port, and -v produces verbose output.
+Here, ```-l``` listens for incoming connections, ```-p``` specifies the port, and ```-v``` produces verbose output.
 
 On the other session we execute the binary, pointing it to the same port:
 ```bash
@@ -390,9 +407,9 @@ Afterwards, we paste bandit20's password on the session where ```nc``` is runnin
 <hr/>
 
 ## Level 21 -> Level 22
-A program is running automatically at intervals from cron, whose configuration is in /etc/cron.d/
+A program is running automatically at intervals from cron, whose configuration is in _/etc/cron.d/_
 
-First, I saw the contents of /etc/cron.d using ```ls```. I first looked into a file called cronjob_bandit22 using ```cat``` and found out it executes a shell script:
+First, I saw the contents of _/etc/cron.d_ using ```ls```. I first looked into a file called _cronjob_bandit22_ using ```cat``` and found out it executes a shell script:
 
 (pic)
 
@@ -400,14 +417,14 @@ When displaying that shell script, we can see it actually passes the password on
 
 (pic)
 
-If we visualize the contents of that temporary file, we can see next level's password
+If we visualize the contents of that temporary file, we can see next level's password.
 
 <hr/>
 
 ## Level 22 -> Level 23
-Again, there is a program executing at regular intervals that's found in /etc/cron.d/
+Again, there is a program executing at regular intervals that's found in _/etc/cron.d/_
 
-If we look inside cronjob_bandit23 until reaching the shell script (the same way as the previous level), we encounter this:
+If we look inside _cronjob_bandit23_ until reaching the shell script (the same way as the previous level), we encounter this:
 
 (pic)
 
@@ -422,13 +439,13 @@ $ cat /tmp/{hash}
 <hr/>
 
 ## Level 23 -> Level 24
-A program is running regularly at /etc/cron.d/: cronjob_bandit24. 
+A program is running regularly at _/etc/cron.d/_: _cronjob_bandit24_. 
 
 Following the same steps as the previous levels, we reach the shell script:
 
 (pic)
 
-This script executes and deletes all files in /var/spool/bandit24/foo.
+This script executes and deletes all files in _/var/spool/bandit24/foo_.
 
 To do this, we can first generate a secure temporary directory so we can work comfortably and give it full permissions so the program can access it. Then we go to said directory:
 ```bash
@@ -438,7 +455,7 @@ $ cd /tmp/tmp.{name}
 ```
 **Giving full permissions is not recommended, as anyone can read, write, and execute the file/directory**
 
-Since the password is stored in /etc/bandit_pass/bandit24, we can create a shell script that returns its contents and adds it to a file in our /tmp/ directory. We give the file full permissions so the program can access it:
+Since the password is stored in _/etc/bandit_pass/bandit24_, we can create a shell script that returns its contents and adds it to a file in our _/tmp/_ directory. We give the file full permissions so the program can access it:
 ```bash
 $ echo -e "#! /bin/bash  cat /etc/bandit_pass/bandit24 > /tmp/tmp.{name}/pass" > getpw.sh
 $ chmod 777 getpw.sh
@@ -448,7 +465,7 @@ Then we create the file where the password will go and give it permissions so th
 $ touch pass
 $ chmod 777 pass
 ```
-Finally, we copy the file to /var/spool/bandit24/foo, which is there the files are being executed:
+Finally, we copy the file to _/var/spool/bandit24/foo_, which is where the files are being executed:
 ```bash
 $ cp getpw.sh /var/spool/bandit24/foo
 ```
@@ -469,16 +486,16 @@ What this does is pass the numbers from 0000 to 9999 to the connection to port 3
 <hr/>
 
 ## Level 25 -> Level 26
-The shell for user bandit26 isn't /bin/bash. We're supposed to find our what is it and how to break out of it.
+The shell for user bandit26 isn't _/bin/bash_. We're supposed to find our what is it and how to break out of it.
 
 First, we can see which shell it's using by checking the following directory:
 ```bash
 $ cat /etc/passwd | grep 26
 ```
 (pic)
-This indicates it's running showtext. Inside it, we can see it displays a file from bandit26 home directory called 'text.txt'. At the top we can also see it doesn't have the #!/bin/bash shebang.
+This indicates it's running showtext. Inside it, we can see it displays a file from bandit26 home directory called _text.txt_. At the top we can also see it doesn't have the ```#!/bin/bash``` header.
 
-```more``` is used to display text in an interactive way when it's too large to fit in the terminal. It allows the use of Vim (text editor that also allows command execution). So in order to enter interactive mode, we need to make the terminal smaller than the display, execute the ssh script with the passkey (needs to be on your computer) and click 'v':
+```more``` is used to display text in an interactive way when it's too large to fit in the terminal. It allows the use of Vim (text editor that also allows command execution). So in order to enter interactive mode, we need to make the terminal smaller than the display, execute the ssh script with the passkey (needs to be on your computer) and enter 'v':
 ```bash
 $ ssh -i ./bandit26.sshkey bandit26@bandit.labs.overthewire.org -p 2220
 ```
@@ -489,7 +506,7 @@ While in interactive mode, we write:
  :set shell=/bash/bin
  :shell
 ```
-This sets the shell to /bash/bin and enters the shell. Now we're inside bandit26.
+This sets the shell to _/bash/bin_ and enters the shell. Now we're inside bandit26.
 
 <hr/>
 
@@ -515,7 +532,7 @@ Once it finished cloning, we can visualize the repository's contents:
 ```bash
 $ ls repo
 ```
-This will show it contains a README file.
+This will show it contains a _README_ file.
 
 The password can be found in this file:
 ```bash
@@ -524,7 +541,7 @@ $ cat repo/README
 <hr/>
 
 ## Level 28 -> Level 29
-Again, we have to clone a git repository to obtain the password on port 2220. Since repo is already a repository and we're not using it anymore, we can delete it:
+Again, we have to clone a git repository to obtain the password on port 2220. Since _repo_ is already a repository and we're not using it anymore, we can delete it:
 ```bash
 $ rm -rf repo
 ```
@@ -532,12 +549,12 @@ Now we can clone it, using last level's password:
 ```bash
 $ git clone ssh://bandit28-git@bandit.labs.overthewire.org:2220/home/bandit28-git/repo
 ```
-If we visualize the README file inside (same as the previous level), we can see this:
+If we visualize the _README_ file inside (same as the previous level), we can see this:
 (pic)
 
 Looking at the password section, it's possible there was a previous version that contained the actual password.
 
-So, we visualize the commit history, which shows the different versions of the repository. For the command to work, it has to be done from the repo directory:
+So, we visualize the commit history, which shows the different versions of the repository. For the command to work, it has to be done from the _repo_ directory:
 ```bash
 $ git log
 ```
@@ -557,7 +574,7 @@ One more, we clone a git repository:
 ```bash
 $ git clone ssh://bandit29-git@bandit.labs.overthewire.org:2220/home/bandit29-git/repo
 ```
-If we look at the contents of README.md, we can see the password was never added to production.
+If we look at the contents of _README.md_, we can see the password was never added to production.
 (pic)
 This implies it could have been added to the development branch.
 
@@ -566,7 +583,7 @@ To see all the branches:
 $ git branch -a
 ```
 (pic)
-Here we can observe there is a dev branch.
+Here we can observe there is a _dev_ branch.
 
 If we look at the history of that branch, we can see one of the commits contained data necessary for development:
 ```bash
@@ -584,12 +601,12 @@ We clone the repository:
 ```bash
 $ git clone ssh://bandit30-git@bandit.labs.overthewire.org:2220/home/bandit30-git/repo
 ```
-If we look at README.md, we can see it's empty.
+If we look at _README.md_, we can see it's empty.
 (pic)
 
 The commits also only show the one where the file was written.
 
-However, when we check the tags (point to a specific commit), we can see there is one called 'secret'. The password will be shown if we view its contents:
+However, when we check the tags (pointers for a specific commit), we can see there is one called _secret_. The password will be shown if we view its contents:
 ```bash
 $ git tag
 $ git show secret
@@ -601,15 +618,17 @@ We clone the repository:
 ```bash
 $ git clone ssh://bandit31-git@bandit.labs.overthewire.org:2220/home/bandit31-git/repo
 ```
-If we visualize the README.md file, we see we have to push a file named key.txt with the phrase 'May I come in?' to the master branch.
+If we visualize the _README.md_ file, we see we have to push a file named _key.txt_ with the phrase 'May I come in?' to the master branch.
 
-To do this, we first create the file. It's also possible to use ```echo "May I come in"> cat key.txt``` command to create the file:
+To do this, we first create the file:
 ```bash
 $ nano key.txt
 ```
 And insert the phrase without quotes.
 
-Then we add the file to the repo, commit it, and push it. Note we use ```-f``` in ```git add``` because otherwise the .gitignore file (which is programmed to ignore all .txt files) will ignore it:
+It's also possible to use ```echo "May I come in"> cat key.txt``` to create the file
+
+Then we add the file to the repo, commit it, and push it. Note we use ```-f``` in ```git add``` because otherwise the _.gitignore_ file (which is programmed to ignore all .txt files) would ignore it:
 ```bash
 $ git add -f key.txt
 $ git commit -m "Created key.txt"
@@ -620,7 +639,7 @@ After this, we'll get asked to input this level's password and will receive the 
 <hr/>
 
 ## Level 32 -> Level 33
-When we enter this level, we're stuck in a shell that turns every command to uppercase.
+When we enter this level, we're stuck in a shell that turns every input into uppercase. Since the command-line is case-sensitive, it won't allow us to run any commands.
 
 To bypass this, we can use:
 ```bash
@@ -628,7 +647,7 @@ $0
 ```
 This parameter represents our current shell/interpreter, so it takes us to a regular command terminal.
 
-From there, we can go to /etc/bandit_pass/bandit33 to find the password.
+From there, we can go to _/etc/bandit_pass/bandit33_ to find the password.
 
 <hr/>
 
