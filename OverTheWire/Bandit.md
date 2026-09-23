@@ -1,9 +1,9 @@
 # OverTheWire: Bandit
 
 Bandit is an OverTheWire lab that focuses on the shell (SSH).
-<br/>
+<hr/>
 **The levels' instructions, hints, and connection info can be found on the official [OverTheWire - Bandit](https://overthewire.org/wargames/bandit/) page.**
-<br/>
+<hr/>
 
 * I used a Kali Linux VM to solve all the levels.
 
