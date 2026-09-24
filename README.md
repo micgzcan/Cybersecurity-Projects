@@ -26,8 +26,11 @@ Here's an overview of this repository's contents:
 
   - Buffer Overflow
 
+### Others
+  - SOC Home Lab with Azure
  
 
 <hr/>
+
 
 Feel free to look around...
