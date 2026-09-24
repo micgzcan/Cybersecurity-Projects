@@ -22,7 +22,7 @@ Here's an overview of this repository's contents:
   -  Vulnerability Scanner (coming soon...)
 
 ### Attack Simulation
-**This is solely for educational purposes; to understand how these attacks work underneath in order to be capable of detecting them and protect against them more efficiently**
+***This is solely for educational purposes; to understand how these attacks work underneath in order to be capable of detecting them and protect against them more efficiently***
 
   - Buffer Overflow
 
